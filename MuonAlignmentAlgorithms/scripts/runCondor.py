@@ -29,6 +29,7 @@ tarball = cmsswName+".tar"
 os.chdir(cmsswName+"/src/")
 
 tdir = options.tdir
+if tdir.endswith("/"): tdir = tdir[:-1]
 cDir = options.tdir+"_condor"
 os.mkdir(cDir)
 os.system("mv "+homePath+"/"+tarball+" "+homePath+"/"+cmsswName+"/src/"+cDir)
