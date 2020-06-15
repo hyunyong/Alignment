@@ -1,6 +1,5 @@
 #include "Alignment/MuonAlignmentAlgorithms/interface/MuonGEMChamberResidual.h"
 #include "Geometry/GEMGeometry/interface/GEMGeometry.h"
-
 #include "TrackingTools/Records/interface/TrackingComponentsRecord.h"
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"
 
@@ -34,8 +33,9 @@ void MuonGEMChamberResidual::addResidual(edm::ESHandle<Propagator> prop, const T
     align::LocalPoint hitChamberPos = m_chamberAlignable->surface().toLocal(m_globalGeometry->idToDet(id)->toGlobal(hit->localPosition()));
     align::LocalPoint tsosChamberPos = m_chamberAlignable->surface().toLocal(m_globalGeometry->idToDet(id)->toGlobal(tsos->localPosition()));
 
-    int strip = GEMGeometry->layer(id)->geometry()->nearestStrip(hit->localPosition());
-    double angle = GEMGeometry->layer(id)->geometry()->stripAngle(strip) - M_PI/2.;
+    int strip = GEMGeometry->etaPartition(id)->specificTopology()->nearestStrip(hit->localPosition());
+
+    double angle = GEMGeometry->etaPartition(id)->specificTopology()->stripAngle(strip) - M_PI/2.;
     double sinAngle = sin(angle);
     double cosAngle = cos(angle);
 

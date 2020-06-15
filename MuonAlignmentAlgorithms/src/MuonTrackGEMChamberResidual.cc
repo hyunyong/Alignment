@@ -15,7 +15,7 @@ void MuonTrackGEMChamberResidual::setSegmentResidual(const reco::MuonChamberMatc
 {
   GEMDetId id(trk->id.rawId());
 
-  GEMSegmentRef segmentGEM = seg->GEMSegmentRef;
+  GEMSegmentRef segmentGEM = seg->gemSegmentRef;
   if (segmentGEM.get() != nullptr)
   {
     const GEMSegment* segment = segmentGEM.get();

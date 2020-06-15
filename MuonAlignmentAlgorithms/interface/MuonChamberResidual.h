@@ -30,7 +30,8 @@ public:
   enum {
     kDT13,
     kDT2,
-    kCSC
+    kCSC,
+    kGEM
   };
 
   MuonChamberResidual(edm::ESHandle<GlobalTrackingGeometry> globalGeometry, AlignableNavigator *navigator, 
