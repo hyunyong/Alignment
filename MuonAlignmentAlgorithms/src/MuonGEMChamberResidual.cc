@@ -2,6 +2,8 @@
 #include "Geometry/GEMGeometry/interface/GEMGeometry.h"
 #include "TrackingTools/Records/interface/TrackingComponentsRecord.h"
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"
+#include "Geometry/CommonTopologies/interface/StripTopology.h"
+
 
 MuonGEMChamberResidual::MuonGEMChamberResidual(edm::ESHandle<GlobalTrackingGeometry> globalGeometry, AlignableNavigator *navigator,
         DetId chamberId, AlignableDetOrUnitPtr chamberAlignable)
@@ -20,7 +22,7 @@ void MuonGEMChamberResidual::addResidual(edm::ESHandle<Propagator> prop, const T
     if (m_debug) std::cout << "MuonGEMChamberResidual::addResidual 1" << std::endl;
     DetId id = hit->geographicalId();
     if (m_debug) std::cout << "MuonGEMChamberResidual::addResidual 2" << std::endl;
-    const GEMGeometry *GEMGeometry = dynamic_cast<const GEMGeometry*>(m_globalGeometry->slaveGeometry(id));
+    const auto *GEMGeometry = dynamic_cast<const GEMEtaPartition*>(m_globalGeometry->slaveGeometry(id));
     if (m_debug) std::cout << "MuonGEMChamberResidual::addResidual 3" << std::endl;
     assert(GEMGeometry);
 
@@ -33,9 +35,9 @@ void MuonGEMChamberResidual::addResidual(edm::ESHandle<Propagator> prop, const T
     align::LocalPoint hitChamberPos = m_chamberAlignable->surface().toLocal(m_globalGeometry->idToDet(id)->toGlobal(hit->localPosition()));
     align::LocalPoint tsosChamberPos = m_chamberAlignable->surface().toLocal(m_globalGeometry->idToDet(id)->toGlobal(tsos->localPosition()));
 
-    int strip = GEMGeometry->etaPartition(id)->specificTopology()->nearestStrip(hit->localPosition());
+    int strip = GEMGeometry->strip(hit->localPosition());
 
-    double angle = GEMGeometry->etaPartition(id)->specificTopology()->stripAngle(strip) - M_PI/2.;
+    double angle = GEMGeometry->specificTopology().stripAngle(strip) - M_PI/2.;
     double sinAngle = sin(angle);
     double cosAngle = cos(angle);
 
