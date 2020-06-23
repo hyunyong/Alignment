@@ -1,3 +1,29 @@
+# Run3 
+```
+scram p -n gemTMBA_CMSSW_11_0_3 CMSSW CMSSW_11_0_3
+cd gemTMBA_CMSSW_11_0_3/src
+cmsenv
+
+git clone git@github.com:hyunyong/Alignment.git
+git clone https://github.com/cms-mual/TrackingTools.git -b CMSSW_10_1_X
+git clone https://github.com/cms-mual/MuAlSupplementaryFiles.git -b CMSSW_10_1_X
+ln -s Alignment/MuonAlignmentAlgorithms/scripts/createJobs.py
+ln -s Alignment/MuonAlignmentAlgorithms/python/gather_cfg.py
+ln -s Alignment/MuonAlignmentAlgorithms/python/align_cfg.py
+cp /afs/cern.ch/work/h/hyunyong/public/TBMA/* .
+scram b -j12
+
+./createJobs.py mc_CSC_MuAl_v1_ 1 CSC_MC.db singleMuMC.py --inputInBlocks -s mc_CSC_MuAl_v1.sh --validationLabel mc_CSC_MuAl_v1_ --b --user_mail youremail --minTrackPt 30 --maxTrackPt 200 --maxDxy 0.2 --minNCrossedChambers 1 --residualsModel pureGaussian --peakNSigma 1.6 --station123params 111111 --station4params 101111 --cscparams 110001 --useResiduals 1100 --mapplots --curvatureplots --segdiffplots --extraPlots --globalTag 110X_mc2017_realistic_v4 --createAlignNtuple --noCleanUp --noDT --gprcdconnect sqlite_file:GPR_MC.db --gprcd IdealGeometry --is_MC
+
+cd mc_CSC_MuAl_v1_01
+
+voms-proxy-init --rfc --voms cms
+
+./gather000.sh
+```
+
+
+
 2 April 2018  
 Luca Pernie  
 Dan Marley

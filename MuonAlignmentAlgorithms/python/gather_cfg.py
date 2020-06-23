@@ -104,8 +104,8 @@ if json_file is not None and json_file != '':
         good_lumis.append(str("%s:%s-%s:%s" % (run, lsrange[0], run, lsrange[1])))
         prevblock = lsrange
 
-
-process = cms.Process("GATHER")
+from Configuration.Eras.Era_Run3_cff import Run3
+process = cms.Process("GATHER", Run3)
 
 #add TrackDetectorAssociator lookup maps to the EventSetup
 process.load("TrackingTools.TrackAssociator.DetIdAssociatorESProducer_cff") 
@@ -122,7 +122,8 @@ process.MuonNumberingRecord = cms.ESSource( "EmptyESSource",
 )
 if is_MC:
     process.load('Configuration.StandardSequences.GeometryDB_cff')
-    process.load("Geometry.CMSCommonData.cmsExtendedGeometry2016aXML_cfi")
+    #process.load("Geometry.CMSCommonData.cmsExtendedGeometry2016aXML_cfi")
+    process.load("Geometry.CMSCommonData.cmsExtendedGeometry2021XML_cfi")
 else:
     process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
     process.load("Geometry.CMSCommonData.cmsExtendedGeometry2018XML_cfi")
